@@ -1,10 +1,14 @@
 package lceye.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,9 +42,21 @@ public class MemberController {
         // 2. 로그인을 성공했다면, Redis Session에 정보 넣기
         if (result != null){
             result.setMpwd(null);
+            // 3. 시큐리티 인증 토큰에 넣을 권한 리스트 생성
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority(result.getMrole()));
+            // 4. 시큐리티 인증 토큰 생성
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    result.getMno(),
+                    null,
+                    authorities
+            );
+            // 5. 시큐리티 컨텍스트에 저장
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // 6. Redis Session에 저장
             session.setAttribute("loginMember", result);
         } // if end
-        // 3. 최종적으로 결과 반환
+        // 6. 최종적으로 결과 반환
         return ResponseEntity.ok(result);
     } // func end
 

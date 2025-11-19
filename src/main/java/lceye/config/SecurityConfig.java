@@ -18,12 +18,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
         // 1. HTTP 요청에 따른 권한 커스텀
         httpSecurity.authorizeHttpRequests(auth -> auth
-                // 권한 목록 : ADMIN, MANAGER, WORKER
-                .requestMatchers("/api/lci/**").hasAnyRole("ADMIN", "MANAGER", "WORKER")
-                .requestMatchers("/api/inout/**").hasAnyRole("ADMIN", "MANAGER", "WORKER")
-                .requestMatchers("/api/project/manager").hasAnyRole("ADMIN", "MANAGER")
-                .requestMatchers("/api/project/**").hasAnyRole("ADMIN", "MANAGER", "WORKER")
-                // 일단 모든 요청에 대한 권한 허용
+                // 회원 파트는 모든 요청에 대한 권한 허용
                 .requestMatchers("/**").permitAll()
         );
         // 2. 차단된 csrf 차단 해체

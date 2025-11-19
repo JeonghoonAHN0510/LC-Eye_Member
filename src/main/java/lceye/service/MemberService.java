@@ -41,6 +41,9 @@ public class MemberService {
 
 
     public MemberDto getMemberDtoById(int mno){
-        return memberRepository.getReferenceById(mno).toDto();
+        MemberEntity memberEntity = memberRepository.getReferenceById(mno);
+        System.out.println("memberEntity = " + memberEntity);
+        System.out.println("memberEntity.toDto() = " + memberEntity.toDto());
+        return memberEntity.toDto();
     } // func end
 } // class end
