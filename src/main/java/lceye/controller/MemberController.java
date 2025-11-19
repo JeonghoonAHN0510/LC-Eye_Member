@@ -87,4 +87,9 @@ public class MemberController {
         result.put("mname", memberDto.getMname());
         return ResponseEntity.ok(result);
     } // func end
+
+    @GetMapping("/memberdtobyid")
+    public ResponseEntity<?> getMemberDtoById(@RequestParam int mno){
+        return ResponseEntity.ok(memberService.getMemberDtoById(mno));
+    } // func end
 } // class end

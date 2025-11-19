@@ -24,7 +24,6 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
     private final MemberMapper memberMapper;
-    private final RedisTemplate<String, Object> memberTemplate;
 
     /**
      * [MB-01] 로그인(login)
@@ -38,5 +37,10 @@ public class MemberService {
     public MemberDto login(MemberDto memberDto){
         // 1. 요청된 아이디와 비밀번호가 유효한지 확인하여 반환
         return memberMapper.login(memberDto);
+    } // func end
+
+
+    public MemberDto getMemberDtoById(int mno){
+        return memberRepository.getReferenceById(mno).toDto();
     } // func end
 } // class end
