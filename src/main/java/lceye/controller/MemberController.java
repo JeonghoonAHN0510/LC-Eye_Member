@@ -1,17 +1,11 @@
 package lceye.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lceye.model.dto.MemberDto;
 import lceye.service.MemberService;
@@ -31,47 +25,40 @@ public class MemberController {
      * 테스트 : {"mid":"admin", "mpwd":"1234"}
      * @param memberDto 아이디, 비밀번호가 담긴 Dto
      * @param session 요청한 회원의 HTTP session 정보
-     * @return 로그인을 성공한 회원의 Dto
+     * @return 로그인을 성공한 회원의 JWT 토큰
      * @author AhnJH
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody MemberDto memberDto,
-                                   HttpSession session){
+    public ResponseEntity<?> login(@RequestBody MemberDto memberDto, HttpSession session){
         // 1. 입력받은 값을 Service에 전달하여 로그인 진행
         MemberDto result = memberService.login(memberDto);
-        // 2. 로그인을 성공했다면, Redis Session에 정보 넣기
+        // 2. 로그인을 성공했다면
         if (result != null){
-            result.setMpwd(null);
-            // 3. 시큐리티 인증 토큰에 넣을 권한 리스트 생성
-            List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(result.getMrole()));
-            // 4. 시큐리티 인증 토큰 생성
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    result.getMno(),
-                    null,
-                    authorities
-            );
-            // 5. 시큐리티 컨텍스트에 저장
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            // 6. Redis Session에 저장
-            session.setAttribute("loginMember", result);
+            session.setAttribute("loginMember", result.getToken());
+            session.setMaxInactiveInterval(3600);                       // 세션 유효시간 설정
+            return ResponseEntity.ok(result.getToken());
         } // if end
         // 6. 최종적으로 결과 반환
-        return ResponseEntity.ok(result);
+        return ResponseEntity.status(401).body(false);
     } // func end
 
     /**
      * [MB-02] 로그아웃(logout)
      * <p>
      * 요청한 회원의 로그인 정보를 Redis Session에서 제거한다.
-     * @param session 요청한 회원의 HTTP 세션 정보
+     * @param session 요청한 회원의 HTTP session 정보
      * @return 로그아웃 성공 여부 - boolean
      * @author AhnJH
      */
     @GetMapping("/logout")
-    public ResponseEntity<?> logout(HttpSession session){
-        // 1. Redis Session을 완전히 비우기
-        session.invalidate();
+    public ResponseEntity<?> logout(@RequestHeader(value = "Authorization", required = false) String header,
+                                    HttpSession session){
+        if (header == null) {
+            session.invalidate();
+        } else {
+            // 플러터 로그아웃
+
+        } // if end
         return ResponseEntity.ok(true);
     } // func end
 
@@ -79,33 +66,30 @@ public class MemberController {
      * [MB-03] 로그인 정보 확인(getInfo)
      * <p>
      * 요청한 회원의 [로그인 여부, 권한, 회원명, 회사명]을 반환한다.
-     * @param session 요청한 회원의 HTTP 세션 정보
+     * @param session 요청한 회원의 HTTP session 정보
      * @return 요청한 회원의 정보
      * @author AhnJH
      */
     @GetMapping("/getinfo")
-    public ResponseEntity<?> getInfo(HttpSession session){
-        // 1. 세션에서 로그인 정보 꺼내기
-        MemberDto memberDto = (MemberDto) session.getAttribute("loginMember");
-        Map<String, Object> result = new HashMap<>();
-        if (memberDto == null){
-            // 2. 비로그인 상태라면 비로그인을 표시하고
-            result.put("isAuth", false);
-            // 3. HTTP 401으로 반환
-            return ResponseEntity.status(401).body(result);
+    public ResponseEntity<?> getInfo(@RequestHeader(value = "Authorization", required = false) String header,
+                                     HttpSession session){
+        String token = (String) session.getAttribute("loginMember");
+        // 1. 쿠키 내 토큰이 존재하고
+        if (token != null){
+            Map<String, Object> infoByToken = memberService.getInfo(token);
+            // 2. 해당 토큰이 유효하여 정보 추출에 성공했다면
+            if (infoByToken != null){
+                // 3. 로그인여부를 표시하고
+                infoByToken.put("isAuth", true);
+                // 4. HTTP 200으로 반환
+                return ResponseEntity.status(200).body(infoByToken);
+            } // if end
         } // if end
-        // 4. 로그인 상태라면 로그인 정보를 구성하여 반환
-        result.put("isAuth", true);
-        result.put("role", memberDto.getMrole());
-        result.put("cno", memberDto.getCno());
-        result.put("cname", memberDto.getCname());
-        result.put("mno", memberDto.getMno());
-        result.put("mname", memberDto.getMname());
-        return ResponseEntity.ok(result);
-    } // func end
-
-    @GetMapping("/memberdtobyid")
-    public ResponseEntity<?> getMemberDtoById(@RequestParam int mno){
-        return ResponseEntity.ok(memberService.getMemberDtoById(mno));
+        // 5. 비로그인 상태라면
+        Map<String, Object> result = new HashMap<>();          // infoByToken이 null일 수 있기에, 재정의 해주기
+        // 6. 비로그인을 표시하고
+        result.put("isAuth", false);
+        // 7. HTTP 403으로 반환
+        return ResponseEntity.status(403).body(result);
     } // func end
 } // class end

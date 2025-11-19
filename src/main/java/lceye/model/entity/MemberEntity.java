@@ -49,7 +49,6 @@ public class MemberEntity extends BaseTime{
                 .mphone(this.mphone)
                 .mpwd(this.mpwd)
                 .mphone(this.mphone)
-                .cno(this.getCompanyEntity().getCno())
                 .createdate(this.getCreatedate().toString())
                 .updatedate(this.getUpdatedate().toString())
                 .build();

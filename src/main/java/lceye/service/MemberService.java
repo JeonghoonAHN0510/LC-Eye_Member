@@ -1,9 +1,7 @@
 package lceye.service;
 
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,6 +22,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
     private final MemberMapper memberMapper;
+    private final JwtService jwtService;
 
     /**
      * [MB-01] 로그인(login)
@@ -35,15 +34,47 @@ public class MemberService {
      * @author AhnJH
      */
     public MemberDto login(MemberDto memberDto){
-        // 1. 요청된 아이디와 비밀번호가 유효한지 확인하여 반환
-        return memberMapper.login(memberDto);
+        // 1. 요청된 아이디와 비밀번호가 유효한지 확인
+        MemberDto result = memberMapper.login(memberDto);
+        // 2. 유효하지 않으면, null 반환
+        if (result == null) return null;
+        // 3. 유효하면, 로그인정보로 토큰 발급 : loginMno, loginCname, loginRole
+        String token = jwtService.generateToken(result);
+        result.setToken(token);
+        // 4. 최종적으로 토큰이 담긴 Dto 반환
+        return result;
     } // func end
 
-
-    public MemberDto getMemberDtoById(int mno){
-        MemberEntity memberEntity = memberRepository.getReferenceById(mno);
-        System.out.println("memberEntity = " + memberEntity);
-        System.out.println("memberEntity.toDto() = " + memberEntity.toDto());
-        return memberEntity.toDto();
+    /**
+     * [MB-03] 로그인 정보 확인(getInfo)
+     * <p>
+     * 요청한 회원의 [로그인 여부, 권한, 회원명, 회사명]을 반환한다.
+     * @param token 요청한 회원의 token 정보
+     * @return 요청한 회원의 정보
+     * @author AhnJH
+     */
+    public Map<String, Object> getInfo(String token){
+        // 0. 토큰이 유효한지 확인
+        if (!jwtService.validateToken(token)) return null;
+        // 1. 토큰으로부터 요청한 회원번호, 권한과 회사명 추출하기
+        int mno = jwtService.getMnoFromClaims(token);
+        int cno = jwtService.getCnoFromClaims(token);
+        String role = jwtService.getRoleFromClaims(token);
+        // 2. 회원번호로 회원명, 회사번호 추출하기
+        Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
+        Optional<CompanyEntity> companyEntity = companyRepository.findById(cno);
+        String mname = null;
+        String cname = null;
+        if (memberEntity.isPresent()) mname = memberEntity.get().getMname();
+        if (companyEntity.isPresent()) cname = companyEntity.get().getCname();
+        // 3. 추출한 정보를 Map 형식으로 변환하기
+        Map<String, Object> infoByToken = new HashMap<>();
+        infoByToken.put("mno", mno);
+        infoByToken.put("mname", mname);
+        infoByToken.put("role", role);
+        infoByToken.put("cname", cname);
+        infoByToken.put("cno", cno);
+        // 4. 변환한 Map 반환하기
+        return infoByToken;
     } // func end
 } // class end
