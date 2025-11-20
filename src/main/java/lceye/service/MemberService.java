@@ -1,5 +1,7 @@
 package lceye.service;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -19,10 +21,12 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 @RequiredArgsConstructor
 public class MemberService {
+    private final RedisTemplate<String, String> redisStringTemplate;
     private final MemberRepository memberRepository;
     private final CompanyRepository companyRepository;
     private final MemberMapper memberMapper;
     private final JwtService jwtService;
+    private final ChannelTopic topic;
 
     /**
      * [MB-01] 로그인(login)
@@ -76,5 +80,12 @@ public class MemberService {
         infoByToken.put("cno", cno);
         // 4. 변환한 Map 반환하기
         return infoByToken;
+    } // func end
+
+    public void getMember(int mno){
+        MemberEntity memberEntity = memberRepository.getReferenceById(mno);
+        System.out.println("memberEntity = " + memberEntity);
+
+        redisStringTemplate.convertAndSend(topic.getTopic(), memberEntity.toDto());
     } // func end
 } // class end
