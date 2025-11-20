@@ -56,8 +56,8 @@ dependencies {
     implementation 'org.apache.commons:commons-text:1.11.0'
     // [14] Jackson 기본 ObjectMapper의 localDateTime 직렬화 해결을 위한 라이브러리
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    // [15] WebClient - 서버 간 통신을 위해
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // [15] Redis 통신
+    implementation 'org.springframework.boot:spring-boot-starter-web'
     // [16] Redisson
     implementation 'org.redisson:redisson-spring-boot-starter:3.16.3'
     // [17] Redis Session
