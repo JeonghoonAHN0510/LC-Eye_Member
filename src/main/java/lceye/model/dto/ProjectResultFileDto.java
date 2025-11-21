@@ -1,6 +1,5 @@
 package lceye.model.dto;
 
-import lceye.model.entity.ProjectResultFileEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,11 +19,4 @@ public class ProjectResultFileDto {
 
     // 2. 부가적인 정보
 
-    // 3. toEntity 생성
-    public ProjectResultFileEntity toEntity(){
-        return ProjectResultFileEntity.builder()
-                .prfno(this.prfno)
-                .prfname(this.prfname)
-                .build();
-    } // func end
 } // class end

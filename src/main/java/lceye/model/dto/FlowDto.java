@@ -1,6 +1,5 @@
 package lceye.model.dto;
 
-import lceye.model.entity.FlowEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,13 +21,4 @@ public class FlowDto {
 
     // 2. 부가적인 정보
 
-    // 3. toEntity 생성
-    public FlowEntity toEntity(){
-        return FlowEntity.builder()
-                .fno(this.fno)
-                .fname(this.fname)
-                .fuuid(this.fuuid)
-                .casnumber(this.casnumber)
-                .build();
-    } // func end
 } // class end

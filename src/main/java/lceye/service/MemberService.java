@@ -81,11 +81,4 @@ public class MemberService {
         // 4. 변환한 Map 반환하기
         return infoByToken;
     } // func end
-
-    public void getMember(int mno){
-        MemberEntity memberEntity = memberRepository.getReferenceById(mno);
-        System.out.println("memberEntity = " + memberEntity);
-
-        redisStringTemplate.convertAndSend(topic.getTopic(), memberEntity.toDto());
-    } // func end
 } // class end

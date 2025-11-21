@@ -38,27 +38,16 @@ public class RedisConfig {
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         // 3. 생성한 템플릿은 key값을 String 타입으로 직렬화한다.
         redisTemplate.setKeySerializer(new StringRedisSerializer());
-        // 4. 생성한 템플릿은 value값을 JSON/DTO 타입으로 직렬화한다,
+        // 4. 생성한 템플릿은 value값을 String 타입으로 직렬화한다,
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         // 직렬화 : Redis에 저장된 데이터를 자바 타입으로 변환 과정
-        return redisTemplate;
-    } // func end
-
-    @Bean
-    public RedisTemplate<String, MemberDto> redisMemberDTO(RedisConnectionFactory redisConnectionFactory){
-        RedisTemplate<String, MemberDto> redisTemplate = new RedisTemplate<>();
-        // 2. 생성한 템플릿 객체를 팩토리(Redis 저장소)에 등록
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        Jackson2JsonRedisSerializer<MemberDto> serializer = new Jackson2JsonRedisSerializer<>(MemberDto.class);
-        redisTemplate.setValueSerializer(serializer);
         return redisTemplate;
     } // func end
 
     // 2. 통신할 채널 정의
     @Bean
     public ChannelTopic topic(){
-        return new ChannelTopic("lc-eye");
+        return new ChannelTopic("8080server");
     } // func end
 
     // 3. 리스너 어댑터 설정
@@ -74,7 +63,7 @@ public class RedisConfig {
                                                         ChannelTopic topic) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);      // Redis 연결 정보 설정
-        container.addMessageListener(listenerAdapter, topic);   // "lc-eye"에 오면 listenerAdapter 실행
+        container.addMessageListener(listenerAdapter, topic);   // "8080server"에 오면 listenerAdapter 실행
         return container;
     } // func end
 } // class end

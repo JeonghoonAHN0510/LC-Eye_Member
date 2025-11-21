@@ -1,6 +1,5 @@
 package lceye.model.dto;
 
-import lceye.model.entity.UnitGroupEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,12 +19,4 @@ public class UnitGroupDto {
 
     // 2. 부가적인 정보
 
-    // 3. toEntity 생성
-    public UnitGroupEntity toEntity(){
-        return UnitGroupEntity.builder()
-                .ugno(this.ugno)
-                .ugname(this.ugname)
-                .uguuid(this.uguuid)
-                .build();
-    } // func end
 } // class end
