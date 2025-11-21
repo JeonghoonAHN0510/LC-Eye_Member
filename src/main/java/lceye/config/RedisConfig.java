@@ -50,20 +50,14 @@ public class RedisConfig {
         return new ChannelTopic("8080server");
     } // func end
 
-    // 3. 리스너 어댑터 설정
-    @Bean
-    public MessageListenerAdapter messageListenerAdapter(RedisService redisService){
-        return new MessageListenerAdapter(redisService);
-    } // func end
-
-    // 4. 컨테이너 설정
+    // 3. 컨테이너 설정
     @Bean
     public RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory,
-                                                        MessageListenerAdapter listenerAdapter,
+                                                        RedisService redisService,
                                                         ChannelTopic topic) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);      // Redis 연결 정보 설정
-        container.addMessageListener(listenerAdapter, topic);   // "8080server"에 오면 listenerAdapter 실행
+        container.addMessageListener(redisService, topic);   // "8080server"에 오면 listenerAdapter 실행
         return container;
     } // func end
 } // class end
