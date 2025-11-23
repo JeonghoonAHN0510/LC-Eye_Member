@@ -6,12 +6,9 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.data.redis.listener.RedisMessageListenerContainer;
-import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import lceye.model.dto.MemberDto;
 import lceye.service.RedisService;
 
 @Configuration
@@ -44,20 +41,26 @@ public class RedisConfig {
         return redisTemplate;
     } // func end
 
-    // 2. 통신할 채널 정의
+    // 2. 요청을 받을 채널 정의
     @Bean
-    public ChannelTopic topic(){
-        return new ChannelTopic("8080server");
+    public ChannelTopic memberTopic(){
+        return new ChannelTopic("8080server-member");
     } // func end
 
-    // 3. 컨테이너 설정
+    // 3. 8081로 응답을 보낼 채널 정의
+    @Bean
+    public ChannelTopic projectTopic(){
+        return new ChannelTopic("8081server-project");
+    } // func end
+
+    // 4. 컨테이너 설정
     @Bean
     public RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory,
                                                         RedisService redisService,
-                                                        ChannelTopic topic) {
+                                                        ChannelTopic memberTopic) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
-        container.setConnectionFactory(connectionFactory);      // Redis 연결 정보 설정
-        container.addMessageListener(redisService, topic);   // "8080server"에 오면 listenerAdapter 실행
+        container.setConnectionFactory(connectionFactory);          // Redis 연결 정보 설정
+        container.addMessageListener(redisService, memberTopic);   // "8080server-member"에 오면 listenerAdapter 실행
         return container;
     } // func end
 } // class end

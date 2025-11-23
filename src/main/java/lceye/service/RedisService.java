@@ -6,27 +6,55 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.ChannelTopic;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
+import jakarta.transaction.Transactional;
 import lceye.model.dto.MemberDto;
+import lceye.model.dto.RedisRequestDto;
+import lceye.model.dto.RedisResponseDto;
+import lceye.model.entity.MemberEntity;
+import lceye.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class RedisService implements MessageListener {
-    private final RedisTemplate<String, Object> redisTemplate;
-    private final MemberService memberService;
-    private final ObjectMapper objectMapper;
+    private final RedisTemplate<String, String> redisStringTemplate;
+    private final MemberRepository memberRepository;
+    private final ChannelTopic projectTopic;       // 응답을 보낼 채널
+    private final ObjectMapper objectMapper;        // JSON 변환을 위해
 
     @Override
     public void onMessage(Message message, byte[] pattern) {
         try {
-            // 1. 받은 메시지를 문자열로 변환
+            // 1. 받은 메시지를 문자열로 변환하고 mno 추출
             String body = new String(message.getBody());
-
-            System.out.println("[8080 서버] 요청 받음! ");
-
-            System.out.println("[8080 서버] 응답 보냄: ");
+            System.out.println("body = " + body);
+            RedisRequestDto requestDto = objectMapper.readValue(body, RedisRequestDto.class);
+            System.out.println("[8080] 요청 받음 (ID: " + requestDto.getRequestId() + ")");
+            // 2. mno로 MemberEntity 추출
+            int mno = requestDto.getMno();
+            Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
+            if (memberEntity.isPresent()){
+                System.out.println("memberEntity = " + memberEntity.get());
+                // 3. MemberEntity를 MemberDto로 변환
+                MemberDto memberDto = memberEntity.get().toDto();
+                System.out.println("memberDto = " + memberDto);
+                // 4. 응답 객체 생성
+                RedisResponseDto responseDto = RedisResponseDto.builder()
+                        .responseId(requestDto.getRequestId())
+                        .responseMember(memberDto)
+                        .build();
+                // 5. 응답 객체를 JSON 문자열로 변환
+                String jsonResult = objectMapper.writeValueAsString(responseDto);
+                // 6. 8081 서버로 발행
+                redisStringTemplate.convertAndSend(projectTopic.getTopic(), jsonResult);
+                System.out.println("[8080 서버] 응답 보냄: " + jsonResult);
+            } // if end
         } catch (Exception e) {
             System.out.println("e = " + e);
         } // try-catch end
