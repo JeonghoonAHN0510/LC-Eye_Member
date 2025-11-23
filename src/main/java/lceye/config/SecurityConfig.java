@@ -24,14 +24,15 @@ public class SecurityConfig {
                 .requestMatchers("/api/inout/**").hasAnyRole("ADMIN", "MANAGER", "WORKER")
                 .requestMatchers("/api/project/manager").hasAnyRole("ADMIN", "MANAGER")
                 .requestMatchers("/api/project/**").hasAnyRole("ADMIN", "MANAGER", "WORKER")
+                .requestMatchers("/api/units/**").hasAnyRole("ADMIN", "MANAGER", "WORKER")
                 // 일단 모든 요청에 대한 권한 허용
                 .requestMatchers("/**").permitAll()
         );
         // 2. 차단된 csrf 차단 해체
         httpSecurity.csrf(csrf -> csrf.disable());
 
-        // 3. 시큐리티 세션 기반 토큰 해제
-        httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        // 3. 시큐리티 세션 기반 토큰을 필요시 자동 생성
+        httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED));
         // 4. 내가 만든 토큰으로 교체
         httpSecurity.addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 

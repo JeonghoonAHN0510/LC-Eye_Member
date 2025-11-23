@@ -11,18 +11,21 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ProjectDto {
     // 1. 기본적인 정보
-    private int pjno;
-    private String pjname;
-    private double pjamount;
-    private String pjdesc;
-    private String pjfilename;
-    private int mno;
-    private int uno;
-    private String createdate;
-    private String updatedate;
+    private int pjno;           // 프로젝트 번호
+    private String pjname;      // 프로젝트 명
+    private double pjamount;    // 생산량
+    private String pjdesc;      // 프로젝트 설명
+    private String pjfilename;  // 프로젝트 정보 저장 파일(Process 까지 정보를 담은 json 파일)
+    private int mno;            // 작성자
+    private int uno;            // 상세 단위 번호
+    private String createdate;  // 생성일
+    private String updatedate;  // 수정일
 
 
     // 2. 부가적인 정보
-    private String mname;
+    private String mname;       // 작성자 이름
+    private int ugno;        // 단위 그룹 번호
+    private String ugname;      // 단위 그룹 이름
+    private String unit;       // 상세 단위 이름
 
 } // class end

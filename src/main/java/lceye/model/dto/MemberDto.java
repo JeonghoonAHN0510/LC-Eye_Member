@@ -1,7 +1,5 @@
 package lceye.model.dto;
 
-import java.io.Serializable;
-
 import lceye.model.entity.MemberEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberDto implements Serializable {
+public class MemberDto {
     // 1. 기본적인 정보
     private int mno;
     private String mname;
@@ -28,7 +26,6 @@ public class MemberDto implements Serializable {
     // 2. 부가적인 정보
     private String token;
     private String cname;
-    private CompanyDto companyDto;
 
     // 3. toEntity 생성
     public MemberEntity toEntity(){
