@@ -59,7 +59,7 @@ dependencies {
     // [15] Redis 통신
     implementation 'org.springframework.boot:spring-boot-starter-web'
     // [16] Redisson
-    implementation 'org.redisson:redisson-spring-boot-starter:3.16.3'
+    implementation 'org.redisson:redisson-spring-boot-starter:3.52.0'
     // [17] Redis Session
     implementation 'org.springframework.session:spring-session-data-redis'
 }
