@@ -40,9 +40,11 @@ public class RedisService implements MessageListener {
             int mno = requestDto.getMno();
             Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
             if (memberEntity.isPresent()){
-                System.out.println("memberEntity = " + memberEntity.get());
+                MemberEntity member = memberEntity.get();
+                System.out.println("memberEntity = " + member);
                 // 3. MemberEntity를 MemberDto로 변환
-                MemberDto memberDto = memberEntity.get().toDto();
+                MemberDto memberDto = member.toDto();
+                memberDto.setCno(member.getCompanyEntity().getCno());
                 System.out.println("memberDto = " + memberDto);
                 // 4. 응답 객체 생성
                 RedisResponseDto responseDto = RedisResponseDto.builder()
