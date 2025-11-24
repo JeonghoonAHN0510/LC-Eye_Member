@@ -17,41 +17,50 @@
 
 전체 통신 흐름도입니다.
 
-```text
-┌──────┐       ┌──────────────┐       ┌─────┐       ┌─────────────┐       ┌────┐
-│Client│       │Project Server│       │Redis│       │Member Server│       │ DB │
-└──┬───┘       └──────┬───────┘       └──┬──┘       └──────┬──────┘       └─┬──┘
-   │ 1. 요청 (mno)    │                  │                 │                │
-   │────────────────➤│                  │                 │                │
-   │                  │ 2. UUID 생성     │                 │                │
-   │                  │    & 대기 (Wait) │                 │                │
-   │                  │                  │                 │                │
-   │                  │ 3. Pub ("req")   │                 │                │
-   │                  │────────────────➤│                 │                │
-   │                  │                  │ 4. Sub (Listen) │                │
-   │                  │                  │───────────────➤│                │
-   │                  │                  │                 │ 5. @Tx Start   │
-   │                  │                  │                 │    (Session On)│
-   │                  │                  │                 │                │
-   │                  │                  │                 │ 6. findById    │
-   │                  │                  │                 │──────────────➤│
-   │                  │                  │                 │                │
-   │                  │                  │                 │ 7. Entity      │
-   │                  │                  │                 │ᐸ───────────────│
-   │                  │                  │                 │                │
-   │                  │                  │                 │ 8. toDto()     │
-   │                  │                  │                 │                │
-   │                  │                  │ 9. Pub ("res")  │                │
-   │                  │                  │ᐸ────────────────│                │
-   │                  │ 10. Sub (Listen) │                 │                │
-   │                  │ᐸ─────────────────│                 │                │
-   │                  │                  │                 │                │
-   │                  │ 11. UUID 매칭    │                 │                │
-   │                  │     & Future.get │                 │                │
-   │                  │                  │                 │                │
-   │ 12. 최종 응답     │                  │                 │                │
-   │ᐸ─────────────────│                  │                 │                │
-   │                  │                  │                 │                │
+```mermaid
+sequenceDiagram
+    participant Client as Client (API 요청)
+    participant ProjSVC as [Project] Service
+    participant ProjRedis as [Project] RedisListener
+    participant Redis as Redis (Broker)
+    participant MemRedis as [Member] RedisListener
+    participant DB as Member DB
+
+    Note over Client, ProjSVC: 1. 프로젝트 생성 요청
+    Client->>ProjSVC: createProject(mno, ...)
+    activate ProjSVC
+    
+    Note right of ProjSVC: 2. 요청 ID(UUID) 생성<br/>PendingMap에 Future 저장
+    
+    ProjSVC->>Redis: 3. PUBLISH "member-request"<br/>{ "requestId": "uuid...", "mno": 101 }
+    activate Redis
+    
+    Redis->>MemRedis: 4. onMessage (구독자 수신)
+    deactivate Redis
+    activate MemRedis
+    
+    Note right of MemRedis: 5. @Transactional 시작<br/>(Lazy Loading 세션 유지)
+    
+    MemRedis->>DB: 6. findById(mno)
+    DB-->>MemRedis: MemberEntity (Proxy)
+    
+    MemRedis->>MemRedis: 7. DTO 변환 (toDto)
+    
+    MemRedis->>Redis: 8. PUBLISH "member-response"<br/>{ "requestId": "uuid...", "memberDto": {...} }
+    deactivate MemRedis
+    activate Redis
+
+    Redis->>ProjRedis: 9. onMessage (응답 수신)
+    deactivate Redis
+    activate ProjRedis
+    
+    ProjRedis-->>ProjSVC: 10. requestId로 Future 찾아서<br/>데이터 주입 (complete)
+    deactivate ProjRedis
+    
+    Note right of ProjSVC: 11. 대기(Wait) 종료 및 로직 수행
+    
+    ProjSVC-->>Client: 12. 최종 응답 반환
+    deactivate ProjSVC
 ```
 
 -----
@@ -97,13 +106,13 @@ Redis를 통해 주고받는 JSON 데이터 포맷입니다.
 {
   "requestId": "550e8400-e29b-41d4-a716-446655440000",
   "memberDto": {
-      "mno": 20003,
-      "name": "홍길동",
-      "email": "user@example.com",
-      "company": {
-          "companyId": 101,
-          "name": "LC-Eye Corp"
-      }
+    "mno": 20003,
+    "name": "홍길동",
+    "email": "user@example.com",
+    "company": {
+      "companyId": 101,
+      "name": "LC-Eye Corp"
+    }
   }
 }
 ```
