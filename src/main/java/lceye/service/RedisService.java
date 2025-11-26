@@ -18,7 +18,9 @@ import lceye.model.dto.RedisResponseDto;
 import lceye.model.entity.MemberEntity;
 import lceye.model.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -33,19 +35,15 @@ public class RedisService implements MessageListener {
         try {
             // 1. 받은 메시지를 문자열로 변환하고 mno 추출
             String body = new String(message.getBody());
-            System.out.println("body = " + body);
             RedisRequestDto requestDto = objectMapper.readValue(body, RedisRequestDto.class);
-            System.out.println("[8080] 요청 받음 (ID: " + requestDto.getRequestId() + ")");
             // 2. mno로 MemberEntity 추출
             int mno = requestDto.getMno();
             Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
             if (memberEntity.isPresent()){
                 MemberEntity member = memberEntity.get();
-                System.out.println("memberEntity = " + member);
                 // 3. MemberEntity를 MemberDto로 변환
                 MemberDto memberDto = member.toDto();
                 memberDto.setCno(member.getCompanyEntity().getCno());
-                System.out.println("memberDto = " + memberDto);
                 // 4. 응답 객체 생성
                 RedisResponseDto responseDto = RedisResponseDto.builder()
                         .responseId(requestDto.getRequestId())
@@ -55,10 +53,9 @@ public class RedisService implements MessageListener {
                 String jsonResult = objectMapper.writeValueAsString(responseDto);
                 // 6. 8081 서버로 발행
                 redisStringTemplate.convertAndSend(projectTopic.getTopic(), jsonResult);
-                System.out.println("[8080 서버] 응답 보냄: " + jsonResult);
             } // if end
         } catch (Exception e) {
-            System.out.println("e = " + e);
+            log.error(e.getMessage());
         } // try-catch end
     } // func end
 } // class end

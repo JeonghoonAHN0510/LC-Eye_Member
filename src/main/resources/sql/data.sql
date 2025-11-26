@@ -26,34 +26,39 @@ VALUES
 (20007, '최유진', 10003, 'worker2', 'pw456', 'WORKER', 'choi@ecobalance.kr', '051-981-2256', now(), now());
 
 -- --------------------------------------- unitgroup ----------------------------------------
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of person*length', '11d161f0-37e3-4d49-bf7a-ff4f31a9e5c7', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of length*time', '326eb58b-e5b3-4cea-b45a-2398c25109f8', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of person*time', '4a4f6060-85a7-3ad8-961b-00844a2dfa96', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of mass*time', '59f191d6-5dd3-4553-af88-1a32accfe308', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of items', '5beb6eed-33a9-47b8-9ede-1dfe8f679159', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of mass*length', '838aaa21-0117-11db-92e3-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of length', '838aaa22-0117-11db-92e3-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of energy', '93a60a57-a3c8-11da-a746-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of volume', '93a60a57-a3c8-12da-a746-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of radioactivity', '93a60a57-a3c8-16da-a746-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of area', '93a60a57-a3c8-18da-a746-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of area*time', '93a60a57-a3c8-20da-a746-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of volume*time', '93a60a57-a3c8-23da-a746-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of mass', '93a60a57-a4c8-11da-a746-0800200c9a66', now(), now());
-INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of time', 'af638906-3ec7-4314-8de7-f76039f2dd01', now(), now());
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of person*time', '4a4f6060-85a7-3ad8-961b-00844a2dfa96', now(), now()); -- 30001
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of items', '5beb6eed-33a9-47b8-9ede-1dfe8f679159', now(), now()); -- 30002
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of person*length', '11d161f0-37e3-4d49-bf7a-ff4f31a9e5c7', now(), now()); --30003
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of mass*time', '59f191d6-5dd3-4553-af88-1a32accfe308', now(), now()); -- 30004
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of energy', '93a60a57-a3c8-11da-a746-0800200c9a66', now(), now()); -- 30005
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of volume', '93a60a57-a3c8-12da-a746-0800200c9a66', now(), now()); -- 30006
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of radioactivity', '93a60a57-a3c8-16da-a746-0800200c9a66', now(), now()); -- 30007
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of area', '93a60a57-a3c8-18da-a746-0800200c9a66', now(), now()); -- 30008
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of area*time', '93a60a57-a3c8-20da-a746-0800200c9a66', now(), now()); -- 30009
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of volume*time', '93a60a57-a3c8-23da-a746-0800200c9a66', now(), now()); -- 30010
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of mass', '93a60a57-a4c8-11da-a746-0800200c9a66', now(), now()); -- 30011
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of length*time', '326eb58b-e5b3-4cea-b45a-2398c25109f8', now(), now()); -- 30012
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of mass*length', '838aaa21-0117-11db-92e3-0800200c9a66', now(), now()); -- 30013
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of length', '838aaa22-0117-11db-92e3-0800200c9a66', now(), now()); -- 30014
+INSERT INTO unitgroup (ugname, uguuid, createdate, updatedate) VALUES ('Units of time', 'af638906-3ec7-4314-8de7-f76039f2dd01', now(), now()); -- 30015
 
 -- --------------------------------------- units ----------------------------------------
 
+-- Units of person*time
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('5dc11308-c00e-4c91-8d8d-8a458a5ea968', 'guest night', 1.0, 30001, now(), now());
+-- Units of items
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('6dabe201-aaac-4509-92f0-d00c26cb72ab', 'Item(s)', 1.0, 30002, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('3bd6c6c3-bb61-46f3-b19a-c87ac5502bb7', 'Dozen(s)', 12.0, 30002, now(), now());
+-- Units of person*length
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('702d94e7-fbae-4a99-a2f5-b26db21126d6', 'p*mi', 1.609344, 30003, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('fe8da65d-f0ea-4496-b13e-1955aaa412d7', 'p*km', 1.0, 30003, now(), now());
+-- Units of mass*time
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('5209be3d-094e-4203-a074-06d7b75e9a38', 't*d', 2.7397, 30004, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('2fdc0039-6c5e-489a-af77-b225684fa337', 'g*a', 0.001, 30004, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('ab01fe47-d2c0-4308-adb1-e32df38d5a50', 'kg*d', 0.00273972, 30004, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('b2ad404c-3e4f-4a7a-a604-46fb36654823', 'kg*a', 1.0, 30004, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('23cc7a32-f08a-43df-a87c-66953eeeb3f5', 't*a', 1000.0, 30004, now(), now());
+-- Units of energy
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('787f2ac9-7bcd-4a91-9fab-55bfe414138f', 'TCE', 29307.6, 30005, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('86ad2244-1f0e-4912-af53-7865283103e4', 'kWh', 3.6, 30005, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('469d61f1-3bc4-4841-8adf-873825c1bc11', 'J', 1.0E-6, 30005, now(), now());
@@ -67,6 +72,7 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('5
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('92e3bd49-8ed5-4885-9db6-fc88c7afcfcb', 'MWh', 3600.0, 30005, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('425aff51-b7e5-4561-aa5a-562ec103a79e', 'TOE', 41868.0, 30005, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('01e58eb9-0aba-4c76-ba0c-03f6f3be1353', 'GJ', 1000.0, 30005, now(), now());
+-- Units of volume
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('df6987d7-afcc-4c92-ae2c-3ce3bc6f5578', 'ul', 1.0E-9, 30006, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('7642bdc2-cdfa-4cc5-9e12-2255f561842a', 'pk', 0.008809768, 30006, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('1c3a9695-398d-4b1f-b07e-a8715b610f70', 'm3', 1.0, 30006, now(), now());
@@ -104,6 +110,7 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('9
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('fea33583-ae83-4398-b7fb-7f90fd097269', 'qt (US liq)', 9.46353E-4, 30006, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('078c7a18-a743-491d-87c2-530454661ef1', 'gill', 1.18294E-4, 30006, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('91995a9e-3cb4-4fc9-a93b-8c618ff9b948', 'bbl', 0.158987294928, 30006, now(), now());
+-- Units of radioactivity
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('e9773595-284e-46dd-9671-5fc9ff406833', 'kBq', 1.0, 30007, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('a9736781-d59e-43dc-8584-147b50595c1c', 'µBq', 1.0E-9, 30007, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('ef6d9358-a156-4c73-b678-320ddee7d2eb', 'Ci', 3.7E7, 30007, now(), now());
@@ -111,6 +118,7 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('a
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('ac324d87-9961-463a-81a1-099bb0f7d89b', 'Bq', 0.001, 30007, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('df1ceca8-2d2a-46fa-91c1-24e5dd0f248f', 'nBq', 1.0E-12, 30007, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('e2987dad-3b7e-451e-82df-fe91756e752a', 'mBq', 1.0E-6, 30007, now(), now());
+-- Units of area
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('b9a011a0-c9bf-459b-b105-2623d1b61ddf', 'km2', 1000000.0, 30008, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('0992b8e3-489a-46ea-8d71-1bf951ece5d0', 'mm2', 1.0E-6, 30008, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('6c4b1e4a-bf45-4385-a60c-12cc48ecbab5', 'yd2', 0.836127, 30008, now(), now());
@@ -124,6 +132,7 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('4
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('8ee3bcbf-9e65-4f59-9b0b-40b504cbe345', 'ac', 4046.872, 30008, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('dc4bb818-ab06-4f65-ade9-a69a3ca116fd', 'dm2', 0.01, 30008, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('588613d5-6c8c-4ab6-8c69-ec5e20ef7881', 'cm2', 1.0E-4, 30008, now(), now());
+-- Units of area*time
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('c8166ae2-b592-4eb9-b365-e384c8b79f3c', 'km2*a', 1000000.0, 30009, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('b396b97c-29ab-409a-b6fa-2285589041bd', 'mm2a', 1.0E-6, 30009, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('0d255e00-8aa1-434e-b6cd-43991a87d3fa', 'cm2a', 1.0E-4, 30009, now(), now());
@@ -132,11 +141,13 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('4
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('efbbab8b-eb92-4e39-bd5f-99951ffda6c3', 'ft2*a', 0.090304, 30009, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('00d8370e-2bf1-4f3b-81bb-f8f147e84819', 'm2*d', 0.00273790933, 30009, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('c7266b67-4ea2-457f-b391-9b94e26e195a', 'm2*a', 1.0, 30009, now(), now());
+-- Units of volume*time
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('8c1fafa2-2b2e-4fef-9581-5de34ae87350', 'l*a', 0.001, 30010, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('f3a1ae74-9750-4199-acdc-2e7e0546e0a5', 'm3*d', 0.00273787, 30010, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('ee5f2241-18af-4444-b457-b275660e5a20', 'm3*a', 1.0, 30010, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('9942703a-5962-4823-8ea3-7af06af9a21e', 'l*d', 2.73787574E-6, 30010, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('9e6a97bb-e0cf-4e4a-9f3a-37067740b421', 'cm3*a', 1.0E-6, 30010, now(), now());
+-- Units of mass
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('ae5cced9-f9f1-4719-bd37-837b36013d96', 'ct', 2.0E-4, 30011, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('218bf752-ec01-43a9-b87c-0e733374fffd', 'cg', 1.0E-5, 30011, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('95dd50e9-c184-4412-9afc-9764b1ffcf8f', 'kg SWU', 1.0, 30011, now(), now());
@@ -162,9 +173,11 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('f
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('d01259b2-24c2-46af-a7fe-36dd025ead15', 'ug', 1.0E-9, 30011, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('56f42b51-bb05-4dcd-a069-0693f167304c', 'dr (Av)', 0.0017718451953125, 30011, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('78af80e7-ede4-4a65-b04d-97d9ce4f39d3', 'gr', 6.479891E-5, 30011, now(), now());
+-- Units of length*time
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('7d082bce-60f5-4588-86bb-56e0dff1c8a8', 'mi*a', 1609.344, 30012, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('f7fe0af2-e764-4984-bb9f-2cbff6cd2f18', 'm*a', 1.0, 30012, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('8cbb4edb-d76c-41f7-8b30-cc789217c954', 'km*a', 1000.0, 30012, now(), now());
+-- Units of mass*length
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('5458351a-f6f7-4e0b-a449-823c9b6374db', 'lb*mi', 7.2998615E-4, 30013, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('097768e6-0763-4126-a253-e323cafdf77e', 'kt*km', 1000.0, 30013, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('3cc51ae9-b993-4a3d-964e-0aed8d7f3966', 't*mi', 1.609344, 30013, now(), now());
@@ -172,6 +185,7 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('7
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('d24270f0-c1f2-49ec-a6bf-e86a74177070', 'lb*nmi', 8.40531E-4, 30013, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('0dea4ed8-bb6b-4049-b2b4-b2c413ef2180', 't*km', 1.0, 30013, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('a40229e6-7275-42e3-a304-23d590044770', 'kg*km', 0.001, 30013, now(), now());
+-- Units of length
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('3d314eab-ef11-4ff3-a35e-9bc5cd858694', 'm', 1.0, 30014, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('9428cdb2-e08e-46f9-a9aa-85cc11416b5f', 'dam', 10.0, 30014, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('9003179a-bf17-4e89-8fd7-a0c1c91ac189', 'u', 1.0E-6, 30014, now(), now());
@@ -189,6 +203,7 @@ INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('7
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('35b9b720-0518-4476-941e-282d9654161a', 'dm', 0.1, 30014, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('1135c9c8-05e9-4831-9eb2-e1c4759f218d', 'fur', 201.168, 30014, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('cc44768b-c0ce-4bc9-804a-c59b67d22e39', 'mm', 0.001, 30014, now(), now());
+-- Units of time
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('9fa94e47-03bd-4ad1-8726-e10cfb6dbb7a', 'min', 0.016666560000000004, 30015, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('11074cfd-08a4-449b-adad-18ce24a1b275', 'd', 24.0, 30015, now(), now());
 INSERT INTO units (uuuid, unit, uvalue, ugno, createdate, updatedate) VALUES ('9a87f840-752d-4863-b911-533f92ee5073', 'a', 8760.0, 30015, now(), now());
@@ -8423,3 +8438,9 @@ VALUES
 ('고무 부품 생산량', 20007, 1200, 40111, '고무 부품의 연간 생산량 기준 (1,200 kg)', now(), now(),"10003_300016_exchange_20251117_1010"),
 ('금속 스크랩 배출량', 20007, 900, 40111, '절단/가공 공정에서 발생한 금속 스크랩 (900 kg)', now(), now(),"10003_300017_exchange_20251117_1010"),
 ('폐포장재 배출량', 20007, 500, 40111, '폐포장재(PE, 종이) 배출량 기준 (500 kg)', now(), now(),"10003_300018_exchange_20251117_1010");
+
+-- Project Resultfile JSON 연결 tabel
+INSERT INTO project_resultfile(pjno, prfno, createdate,updatedate, prfname) values
+(300004, 400001, "2025-11-21 09:31:10.000000", "2025-11-21 09:31:10.000000", "10002_300004_result_20251118_1614"),
+(300005, 400003, "2025-11-21 14:55:18.208827", "2025-11-21 14:55:18.208827", "10002_300005_result_20251121_1455"),
+(300006, 400004, "2025-11-21 14:55:49.470580", "2025-11-21 14:55:49.470580", "10002_300006_result_20251121_1455");
