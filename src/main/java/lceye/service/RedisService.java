@@ -36,6 +36,7 @@ public class RedisService implements MessageListener {
             // 1. 받은 메시지를 문자열로 변환하고 mno 추출
             String body = new String(message.getBody());
             RedisRequestDto requestDto = objectMapper.readValue(body, RedisRequestDto.class);
+            System.out.println("[8080] 요청 받음 (ID: " + requestDto.getRequestId() + ")");
             // 2. mno로 MemberEntity 추출
             int mno = requestDto.getMno();
             Optional<MemberEntity> memberEntity = memberRepository.findById(mno);
@@ -53,6 +54,7 @@ public class RedisService implements MessageListener {
                 String jsonResult = objectMapper.writeValueAsString(responseDto);
                 // 6. 8081 서버로 발행
                 redisStringTemplate.convertAndSend(projectTopic.getTopic(), jsonResult);
+                System.out.println("[8080 서버] 응답 보냄: " + jsonResult);
             } // if end
         } catch (Exception e) {
             log.error(e.getMessage());
